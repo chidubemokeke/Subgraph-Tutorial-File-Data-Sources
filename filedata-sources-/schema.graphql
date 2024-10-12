@@ -34,6 +34,9 @@ type Token @entity {
 
 type NftMetadata @entity {
   id: ID!
+  description: String!
+  externalURL: String!
   image: String!
   name: String!
+  backgroundColor: String!
 }

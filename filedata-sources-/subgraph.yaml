@@ -16,9 +16,8 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Account
+        - Owner
         - Token
-        - NftMetadata
       abis:
         - name: CryptoCoven
           file: ./abis/CryptoCoven.json
