@@ -17,8 +17,8 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Account
-        - Transfer
-        - NFT
+        - Token
+        - NftMetadata
       abis:
         - name: CryptoCoven
           file: ./abis/CryptoCoven.json
