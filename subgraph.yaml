@@ -18,8 +18,6 @@ dataSources:
       entities:
         - Owner
         - Token
-        - NftMetadata
-        - Coven
       abis:
         - name: CryptoCoven
           file: ./abis/CryptoCoven.json
