@@ -1,13 +1,8 @@
-import { Transfer as CovenTransferEvent } from "../generated/CryptoCoven/CryptoCoven";
-import {
-  Approval,
-  ApprovalForAll,
-  OwnershipTransferred,
-  Transfer,
-} from "../generated/schema";
+import { Transfer as TokenTransferEvent } from "../generated/CryptoCoven/CryptoCoven";
+import { Owner, Token } from "../generated/schema";
 
-export function handleTransfer(event: CovenTransferEvent): void {
-  let entity = new Transfer(
+export function handleTransfer(event: TokenTransferEvent): void {
+  let entity = new Token(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   );
   entity.from = event.params.from;

@@ -1,42 +1,88 @@
-# Account entity representing a user account
+# Account entity representing a user account in the system
 type Owner @entity {
-  "Unique identifier for the account, typically the address"
+  "Unique identifier for the account (typically the user's address)"
   id: ID!
 
-  "Array of NFTs owned buy this account"
+  "List of NFTs owned by this account. Derived from the 'owner' field in the Token entity."
   tokens: [Token!]! @derivedFrom(field: "owner")
-
-  tokenURI: String!
-
-  ipfsHashURI: NftMetadata
-
-  "Hash of the transaction"
-  txHash: Bytes!
 }
 
 # Transfer entity representing the transfer of the CryptoCoven NFT
 type Token @entity {
-  "Unique identifier for the transfer event"
+  "Unique identifier for the transfer event (specific to each NFT)"
   id: ID!
 
-  "Owner of the Coven NFT"
+  "Reference to the Owner entity that currently owns the NFT"
   owner: Owner!
 
-  "The unique token ID for the CryptoCoven NFT"
+  "Unique token ID for the CryptoCoven NFT"
   tokenId: BigInt!
 
-  "Index of the log within the transaction for tracking"
+  "Index of the log within the transaction"
   logIndex: BigInt!
 
   "Hash of the transaction"
   txHash: Bytes!
 }
 
+# Metadata entity for storing NFT metadata information
 type NftMetadata @entity {
+  "Unique identifier for the metadata record"
   id: ID!
-  description: String!
-  externalURL: String!
-  image: String!
+
+  "Name of the NFT, allowing users to identify it easily"
   name: String!
-  backgroundColor: String!
+
+  "Description of the NFT, providing context and details about its characteristics"
+  description: String!
+
+  "Image URL for the NFT, used for displaying the visual representation of the NFT"
+  image: String!
 }
+
+# Definition of the Coven entity, representing a collection of NFTs with shared attributes
+type Coven @entity {
+  "Unique identifier for the Coven"
+  id: ID!
+
+  "Name of the coven, used for identifying it in the system"
+  name: String!
+
+  # Type of the coven (e.g., witch, hag)"
+  type: String!
+
+  "Description of the coven, providing context and background information"
+  description: String!
+}
+
+# The @fulltext directive creates an index that allows for full-text search capabilities.
+# This feature is useful for performing searches on text fields within your entities.
+# It supports specifying the language and algorithm to use for the search index.
+# The _Schema type defines full-text search capabilities for enhanced querying of the schema
+type _Schema_
+  @fulltext(
+    # The name of the full-text search index, used to identify the index during search queries
+    name: "covenSearch"
+    # The language used for the full-text search algorithm, supporting broader accessibility
+    language: en
+    # The ranking algorithm used for search results, ensuring relevance-based results
+    algorithm: rank
+    include: [
+      {
+        # Entity included in the full-text search index, allowing for searching within NFT metadata
+        entity: "NftMetadata"
+        fields: [
+          { name: "name" } # Field for searching by the NFT's name
+          { name: "description" } # Field for searching by the NFT's description
+        ]
+      }
+      {
+        # Entity included in the full-text search index, allowing for searching within coven details
+        entity: "Coven"
+        fields: [
+          { name: "name" } # Field for searching by the coven's name
+          { name: "description" } # Field for searching by the coven's description
+        ]
+      }
+    ]
+  )
