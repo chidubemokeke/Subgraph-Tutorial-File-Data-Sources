@@ -16,20 +16,26 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Approval
-        - ApprovalForAll
-        - OwnershipTransferred
+        - Account
         - Transfer
+        - NFT
       abis:
         - name: CryptoCoven
           file: ./abis/CryptoCoven.json
       eventHandlers:
-        - event: Approval(indexed address,indexed address,indexed uint256)
-          handler: handleApproval
-        - event: ApprovalForAll(indexed address,indexed address,bool)
-          handler: handleApprovalForAll
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/crypto-coven.ts
+templates:
+  - name: NftMetadata
+    kind: file/ipfs
+    mapping:
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/crypto-coven.ts
+      handler: handleMetadata
+      entities:
+        - TokenMetadata
+      abis:
+        - name: CryptoCoven
+          file: ./abis/CryptoCoven.json

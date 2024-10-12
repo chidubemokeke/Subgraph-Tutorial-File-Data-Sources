@@ -1,38 +1,39 @@
-type Approval @entity(immutable: true) {
-  id: Bytes!
-  owner: Bytes! # address
-  approved: Bytes! # address
-  tokenId: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+# Account entity representing a user account
+type Owner @entity {
+  "Unique identifier for the account, typically the address"
+  id: ID!
+
+  "Array of NFTs owned buy this account"
+  tokens: [Token!]! @derivedFrom(field: "owner")
+
+  tokenURI: String!
+
+  ipfsHashURI: NftMetadata
+
+  "Hash of the transaction"
+  txHash: Bytes!
 }
 
-type ApprovalForAll @entity(immutable: true) {
-  id: Bytes!
-  owner: Bytes! # address
-  operator: Bytes! # address
-  approved: Boolean! # bool
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+# Transfer entity representing the transfer of the CryptoCoven NFT
+type Token @entity {
+  "Unique identifier for the transfer event"
+  id: ID!
+
+  "Owner of the Coven NFT"
+  owner: Owner!
+
+  "The unique token ID for the CryptoCoven NFT"
+  tokenId: BigInt!
+
+  "Index of the log within the transaction for tracking"
+  logIndex: BigInt!
+
+  "Hash of the transaction"
+  txHash: Bytes!
 }
 
-type OwnershipTransferred @entity(immutable: true) {
-  id: Bytes!
-  previousOwner: Bytes! # address
-  newOwner: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Transfer @entity(immutable: true) {
-  id: Bytes!
-  from: Bytes! # address
-  to: Bytes! # address
-  tokenId: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type NftMetadata @entity {
+  id: ID!
+  image: String!
+  name: String!
 }
