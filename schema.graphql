@@ -1,5 +1,5 @@
 # Account entity representing a user account in the system
-type Owner @entity {
+type Account @entity {
   "Unique identifier for the account (typically the user's address)"
   id: ID!
 
@@ -13,7 +13,7 @@ type Token @entity {
   id: ID!
 
   "Reference to the Owner entity that currently owns the NFT"
-  owner: Owner!
+  owner: Account!
 
   "Unique token ID for the CryptoCoven NFT"
   tokenId: BigInt!

@@ -26,6 +26,8 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+          # Enable receipt processing to access additional data from the transaction logs to verify transaction type from logs
+          receipt: true
       file: ./src/crypto-coven.ts
 templates:
   - name: NftMetadata
@@ -36,7 +38,7 @@ templates:
       file: ./src/crypto-coven.ts
       handler: handleMetadata
       entities:
-        - TokenMetadata
+        - NftMetadataMetadata
       abis:
         - name: CryptoCoven
           file: ./abis/CryptoCoven.json

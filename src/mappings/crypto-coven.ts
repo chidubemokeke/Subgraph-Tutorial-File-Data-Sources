@@ -1,5 +1,5 @@
-import { Transfer as TokenTransferEvent } from "../generated/CryptoCoven/CryptoCoven";
-import { Owner, Token } from "../generated/schema";
+import { Transfer as TokenTransferEvent } from "../../generated/CryptoCoven/CryptoCoven";
+import { Account, Token } from "../../generated/schema";
 
 export function handleTransfer(event: TokenTransferEvent): void {
   let entity = new Token(
